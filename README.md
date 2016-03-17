@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/thaibui/algorithms-core.svg?branch=master)]
 (https://travis-ci.org/thaibui/algorithms-core)
+[![Coverage Status](https://coveralls.io/repos/github/thaibui/algorithms-core/badge.svg?branch=master)]
+(https://coveralls.io/github/thaibui/algorithms-core?branch=master)
 
 It's simply a place for algorithms to live. A list of algorithms in this project
 is provided below.
