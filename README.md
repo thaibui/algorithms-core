@@ -1,5 +1,8 @@
 # A place for algorithms to live
 
+[![Build Status](https://travis-ci.org/thaibui/algorithms-core.svg?branch=master)]
+(https://travis-ci.org/thaibui/algorithms-core)
+
 It's simply a place for algorithms to live. A list of algorithms in this project
 is provided below.
 
