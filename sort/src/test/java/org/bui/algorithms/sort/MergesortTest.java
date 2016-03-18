@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.bui.algorithms.mergesort;
+package org.bui.algorithms.sort;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MergesortTest {
 
@@ -43,7 +44,7 @@ public class MergesortTest {
   public void testArrayWithNullElementShouldFail() {
     expectedException.expect(NullPointerException.class);
     expectedException.expectMessage(String.format("array element cannot be null, found null element at index %d", 2));
-    Mergesort.sort(new Integer[]{1,2,null,3,5}, Integer.class);
+    Mergesort.sort(new Integer[]{1, 2, null, 3, 5}, Integer.class);
   }
 
 
@@ -63,12 +64,12 @@ public class MergesortTest {
   public void testSortArrayWithManyElementsShouldBeCorrect() {
     assertArrayEquals("Array in reversed order should be sorted correctly",
         new Integer[]{15,62,105,105},
-        Mergesort.sort(new Integer[]{105,105,62,15}, Integer.class)
+        Mergesort.sort(new Integer[]{105, 105, 62, 15}, Integer.class)
     );
 
     assertArrayEquals("Array in random order should be sorted correctly",
         new Integer[]{1,1,1,2,3,4,4,5,6,8,60,123},
-        Mergesort.sort(new Integer[]{8,1,4,2,4,1,5,60,1,3,6,123}, Integer.class)
+        Mergesort.sort(new Integer[]{8, 1, 4, 2, 4, 1, 5, 60, 1, 3, 6, 123}, Integer.class)
     );
   }
 
@@ -82,6 +83,11 @@ public class MergesortTest {
         new House[]{House.of("Jerry"), House.of("Ben"), House.of("Adam")},
         Mergesort.sort(new House[]{House.of("Jerry"), House.of("Adam"), House.of("Ben")}, House.class)
     );
+  }
+
+  @Test
+  public void testConstruction(){
+    assertNotNull(new Mergesort());
   }
 
   private static class House implements Comparable {

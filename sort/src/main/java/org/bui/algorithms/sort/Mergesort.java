@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bui.algorithms.mergesort;
+package org.bui.algorithms.sort;
 
 import java.lang.reflect.Array;
 
