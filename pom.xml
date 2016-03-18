@@ -7,7 +7,7 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Mergesort Parent</name>
+  <name>Algorithms Core</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -47,11 +47,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.eluder.coveralls</groupId>
-          <artifactId>coveralls-maven-plugin</artifactId>
-          <version>${coveralls.version}</version>
-        </plugin>
-        <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${jacoco.version}</version>
@@ -63,6 +58,14 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>${coveralls.version}</version>
+          <configuration>
+            <repoToken>${env.ALGORITHMS_CORE_COVERALLS_TOKEN}</repoToken>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
