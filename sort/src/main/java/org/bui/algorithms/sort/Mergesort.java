@@ -68,7 +68,7 @@ public class Mergesort {
 
   @SuppressWarnings("unchecked")
   private static <T extends Comparable> void merge(T[] a, int leftIdx, int leftLength, int rightIdx, int rightLength, Class<T> classOf){
-    T[] tmp = (T[]) Array.newInstance(classOf, leftLength + rightLength);
+    T[] tmp = (T[]) Array.newInstance(classOf, leftLength + rightLength); // TODO inefficient, needs a better solution
     int left = leftIdx;
     int right = rightIdx;
     int idx = 0;
