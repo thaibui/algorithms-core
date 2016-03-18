@@ -16,5 +16,6 @@ The project also includes tests and micro benchmarks for comparisions.
 
 ### Mergesort
 
-A generic implementation of mergesort algorithm in Java to merge data in a
-single machine (DONE, but needs BENCHMARK) and in a distributed environment (TODO).  
+A generic implementation of mergesort algorithm in Java to sort data in a
+single machine (DONE, needs BENCHMARK), with multiple threads (TODO) and 
+in a distributed environment (TODO).  
