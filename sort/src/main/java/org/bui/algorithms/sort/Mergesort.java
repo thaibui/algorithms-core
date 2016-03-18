@@ -37,7 +37,7 @@ public class Mergesort {
    */
   public static <T extends Comparable> T[] sort(T[] elements, Class<T> classOf) {
     if (null == elements){
-      throw new NullPointerException("array of elements cannot be null");
+      throw new IllegalArgumentException("array of elements cannot be null");
     }
 
     if (elements.length > 1){
@@ -109,7 +109,7 @@ public class Mergesort {
   @SuppressWarnings("unchecked")
   private static <T extends Comparable> int compare(T[] a, int l, int r){
     if (null == a[l] || null == a[r]) {
-      throw new NullPointerException(
+      throw new IllegalArgumentException(
           String.format("array element cannot be null, found null element at index %d", a[l] == null ? l : r)
       );
     }

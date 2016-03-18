@@ -34,15 +34,15 @@ public class MergesortTest {
   }
 
   @Test
-  public void testNullArrayOfElementsShouldFail() {
-    expectedException.expect(NullPointerException.class);
+  public void testNullArrayOfElementsShouldFail() { // NOPMD
+    expectedException.expect(IllegalArgumentException.class);
     expectedException.expectMessage("array of elements cannot be null");
     Mergesort.sort(null, Comparable.class);
   }
 
   @Test
-  public void testArrayWithNullElementShouldFail() {
-    expectedException.expect(NullPointerException.class);
+  public void testArrayWithNullElementShouldFail() { // NOPMD
+    expectedException.expect(IllegalArgumentException.class);
     expectedException.expectMessage(String.format("array element cannot be null, found null element at index %d", 2));
     Mergesort.sort(new Integer[]{1, 2, null, 3, 5}, Integer.class);
   }
@@ -95,7 +95,7 @@ public class MergesortTest {
 
     public House(String name){
       if (null == name){
-        throw new NullPointerException("House's name cannot be null");
+        throw new IllegalArgumentException("House's name cannot be null");
       }
 
       this.name = name;
