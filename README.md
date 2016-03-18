@@ -4,8 +4,8 @@
 (https://travis-ci.org/thaibui/algorithms-core)
 [![Coverage Status](https://coveralls.io/repos/github/thaibui/algorithms-core/badge.svg?branch=master)]
 (https://coveralls.io/github/thaibui/algorithms-core?branch=master)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/8287/badge.svg)]
-(https://scan.coverity.com/projects/thaibui-algorithms-core)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/62844e59eb9f4dd5835e2ede39360d7a)]
+(https://www.codacy.com/app/thai-bui/algorithms-core)
 
 It's simply a place for algorithms to live. A list of algorithms in this project
 is provided below.
