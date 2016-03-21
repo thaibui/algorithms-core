@@ -17,5 +17,24 @@ The project also includes tests and micro benchmarks for comparisions.
 ### Mergesort
 
 A generic implementation of mergesort algorithm in Java to sort data in a
-single machine (DONE, needs BENCHMARK), with multiple threads (TODO) and 
-in a distributed environment (TODO).  
+single machine, with multiple threads (TODO) and in a distributed environment (TODO).  
+
+## Benchmarks
+
+A comprehensive list of benchmarks and the results is provided below. All the benchmarks
+are done on a Macbook Pro (Retina, 15-inch, late 2013) using JMH v1.11.3. 
+
+### Hardware Specs
+
+Component    |  Detail 
+-------------|---------
+Processor    | 2.3 GHz Intel Core i7
+Memory       | 8x2 GB 1600 Mhz DDR3
+Graphics     | Intel Iris Pro 1536 MB
+OS Version   | OS X 10.9.5
+Storage      | 251 GB Flash Storage
+
+### Result
+
+The latest result of all the benchmarks is summarized in this [table]
+(benchmark/result/all.md)
