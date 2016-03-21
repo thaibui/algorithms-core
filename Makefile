@@ -10,3 +10,9 @@ generate-benchmark: install
 	java -jar benchmark/target/benchmarks.jar \
 		-i 5 -wi 5 -wf 1 -wbs 2 -t 2 -f 3 \
 		-rf csv -rff benchmark/result/all.csv
+
+quick-benchmark:
+	@echo "Running all benchmarks quickly"
+	java -jar benchmark/target/benchmarks.jar \
+		-i 1 -wi 0 -wf 1 -wbs 2 -t 2 -f 0 \
+
