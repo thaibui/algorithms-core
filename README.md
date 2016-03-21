@@ -37,4 +37,4 @@ Storage      | 251 GB Flash Storage
 ### Result
 
 The latest result of all the benchmarks is summarized in this [table]
-(benchmark/result/all.md)
+(benchmark/result/all.csv)
