@@ -14,5 +14,5 @@ generate-benchmark: install
 quick-benchmark:
 	@echo "Running all benchmarks quickly"
 	java -jar benchmark/target/benchmarks.jar \
-		-i 1 -wi 0 -wf 1 -wbs 2 -t 2 -f 0 \
+		-i 1 -wi 2 -wf 1 -wbs 2 -t 2 -f 0 \
 
