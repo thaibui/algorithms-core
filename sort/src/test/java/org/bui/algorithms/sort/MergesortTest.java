@@ -43,7 +43,7 @@ public class MergesortTest {
   @Test
   public void testArrayWithNullElementShouldFail() { // NOPMD
     expectedException.expect(IllegalArgumentException.class);
-    expectedException.expectMessage(String.format("array element cannot be null, found null element at index %d", 2));
+    expectedException.expectMessage("array element cannot be null");
     Mergesort.sort(new Integer[]{1, 2, null, 3, 5}, Integer.class);
   }
 

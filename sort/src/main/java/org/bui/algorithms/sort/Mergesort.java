@@ -20,9 +20,8 @@ import java.lang.reflect.Array;
 
 /**
  * A simple implementation of the mergesort algorithm. This implementation tries its best to do an in-place
- * sort and merge, however, the in-place merge is still a work in progress and incomplete.
- *
- * TODO Implement in-place merge phase
+ * sort and merge, however, it will use an temporary array half the size of the original array to merge the
+ * data.
  */
 public class Mergesort {
 
@@ -82,36 +81,45 @@ public class Mergesort {
       int rightLength,
       Class<T> classOf){
 
-    T[] tmp = (T[]) Array.newInstance(classOf, leftLength + rightLength); // TODO inefficient, needs a better solution
-    int left = leftIdx;
-    int right = rightIdx;
-    int idx = 0;
+    // Memory Optimization. Allocate only up to half of the original array size for storing the temporary data.
+    int smallArrayIdx = leftLength < rightLength ? leftIdx : rightIdx;
+    int smallArrayLen = leftLength < rightLength ? leftLength : rightLength;
+    T[] tmp = (T[]) Array.newInstance(classOf, smallArrayLen);
+    System.arraycopy(a, smallArrayIdx, tmp, 0, smallArrayLen);
 
-    while (idx < leftLength + rightLength){
-      if (left == leftIdx + leftLength) {
-        tmp[idx] = a[right];
-        right++;
+    int bigArrayIdx, bigArrayLen;
+
+    // If the smaller array is at the end, swap it with the bigger one
+    if (leftLength < rightLength){
+      bigArrayIdx = rightIdx;
+      bigArrayLen = rightLength;
+    } else {
+      System.arraycopy(a, leftIdx, a, rightIdx + rightLength - leftLength, leftLength);
+      bigArrayIdx = rightIdx + rightLength - leftLength;
+      bigArrayLen = leftLength;
+    }
+
+    int tmpCur = 0;
+    int bigCur = bigArrayIdx;
+    int idx = leftIdx;
+
+    while (idx < leftIdx + smallArrayLen + bigArrayLen){
+      if (tmpCur == smallArrayLen) {
+        break; // done, array is sorted
       }
 
-      else if (right == rightIdx + rightLength) {
-        tmp[idx] = a[left];
-        left++;
+      else if (bigCur == bigArrayIdx + bigArrayLen) {
+        a[idx++] = tmp[tmpCur++];
       }
 
-      else if (compare(a, left, right) < 0) {
-        tmp[idx] = a[left];
-        left++;
+      else if (compare(tmp[tmpCur], a[bigCur]) < 0) {
+        a[idx++] = tmp[tmpCur++];
       }
 
       else {
-        tmp[idx] = a[right];
-        right++;
+        a[idx++] = a[bigCur++];
       }
-
-      idx++;
     }
-
-    System.arraycopy(tmp, 0, a, leftIdx, tmp.length);
   }
 
   private static <T extends Comparable> void compareSwap(T[] a, int l, int r){
@@ -121,14 +129,16 @@ public class Mergesort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Comparable> int compare(T[] a, int l, int r){
-    if (null == a[l] || null == a[r]) {
-      throw new IllegalArgumentException(
-          String.format("array element cannot be null, found null element at index %d", a[l] == null ? l : r)
-      );
+  private static <T extends Comparable> int compare(T a, T b){
+    if (null == a || null == b) {
+      throw new IllegalArgumentException("array element cannot be null");
     }
 
-    return a[l].compareTo(a[r]);
+    return a.compareTo(b);
+  }
+
+  private static <T extends Comparable> int compare(T[] a, int l, int r){
+    return compare(a[l], a[r]);
   }
 
   private static <T> void swap(T[] a, int l, int r){
