@@ -48,7 +48,14 @@ public class Mergesort {
     return elements;
   }
 
-  private static <T extends Comparable> void sort(T[] a, int leftIdx, int leftLength, int rightIdx, int rightLength, Class<T> classOf) {
+  private static <T extends Comparable> void sort(
+      T[] a,
+      int leftIdx,
+      int leftLength,
+      int rightIdx,
+      int rightLength,
+      Class<T> classOf) {
+
     if (leftLength > 2) {
       int mid = (int)Math.floor(leftLength / 2);
       sort(a, leftIdx, mid, leftIdx + mid, leftLength - mid, classOf);
@@ -67,7 +74,14 @@ public class Mergesort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Comparable> void merge(T[] a, int leftIdx, int leftLength, int rightIdx, int rightLength, Class<T> classOf){
+  private static <T extends Comparable> void merge(
+      T[] a,
+      int leftIdx,
+      int leftLength,
+      int rightIdx,
+      int rightLength,
+      Class<T> classOf){
+
     T[] tmp = (T[]) Array.newInstance(classOf, leftLength + rightLength); // TODO inefficient, needs a better solution
     int left = leftIdx;
     int right = rightIdx;
