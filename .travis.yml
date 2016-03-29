@@ -1,4 +1,4 @@
 language: java
 
 after_success:
-  - mvn -e clean test jacoco:report coveralls:report --projects sort,leetcode
+  - mvn -e clean verify coveralls:report --projects coverage-report
