@@ -28,6 +28,7 @@
 
     <!-- Build dependencies -->
     <maven.compiler.version>3.5.1</maven.compiler.version>
+    <maven.ant.plugin>1.8</maven.ant.plugin>
 
   </properties>
 
@@ -35,7 +36,6 @@
     <module>sort</module>
     <module>benchmark</module>
     <module>leetcode</module>
-    <module>coverage-report</module>
   </modules>
 
   <build>
@@ -74,6 +74,116 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>coverage-report</id>
+      <properties>
+        <build.directory.projecta>${basedir}/leetcode/target</build.directory.projecta>
+        <build.directory.projectb>${basedir}/sort/target</build.directory.projectb>
+
+        <classes.directory.projecta>${basedir}/leetcode/target/classes</classes.directory.projecta>
+        <classes.directory.projectb>${basedir}/sort/target/classes</classes.directory.projectb>
+
+        <sources.directory.projecta>${basedir}/leetcode/src/main/java</sources.directory.projecta>
+        <sources.directory.projectb>${basedir}/sort/src/main/java</sources.directory.projectb>
+
+        <generated-sources.directory.projecta>${basedir}/leetcode/target/generated-sources/annotations</generated-sources.directory.projecta>
+        <generated-sources.directory.projectb>${basedir}/sort/target/generated-sources/annotations</generated-sources.directory.projectb>
+      </properties>
+
+      <build>
+        <!-- aggregation all reports into one -->
+        <plugins>
+          <!-- Dependencies -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <!-- Copy the ant tasks jar. Needed for ts.jacoco.report-ant . -->
+              <execution>
+                <id>jacoco-dependency-ant</id>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <phase>initialize</phase>
+                <inherited>false</inherited>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.jacoco</groupId>
+                      <artifactId>org.jacoco.ant</artifactId>
+                      <version>${jacoco.version}</version>
+                    </artifactItem>
+                  </artifactItems>
+                  <stripVersion>true</stripVersion>
+                  <outputDirectory>${basedir}/target/jacoco-jars</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Ant plugin. -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${maven.ant.plugin}</version>
+            <executions>
+              <execution>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <inherited>false</inherited>
+                <configuration>
+                  <target>
+                    <!-- Execute an ant task within maven -->
+                    <echo message="Generating JaCoCo Reports"/>
+                    <taskdef name="report" classname="org.jacoco.ant.ReportTask">
+                      <classpath path="${basedir}/target/jacoco-jars/org.jacoco.ant.jar"/>
+                    </taskdef>
+                    <mkdir dir="${basedir}/target/site/jacoco"/>
+                    <report>
+                      <executiondata>
+                        <fileset dir="${build.directory.projecta}">
+                          <include name="jacoco.exec"/>
+                        </fileset>
+                        <fileset dir="${build.directory.projectb}">
+                          <include name="jacoco.exec"/>
+                        </fileset>
+                      </executiondata>
+                      <structure name="org.bui.algorithms.core Coverage Report">
+                        <group name="jacoco-multi">
+                          <classfiles>
+                            <fileset dir="${classes.directory.projecta}"/>
+                            <fileset dir="${classes.directory.projectb}"/>
+                          </classfiles>
+                          <sourcefiles encoding="UTF-8">
+                            <fileset dir="${sources.directory.projecta}"/>
+                            <fileset dir="${sources.directory.projectb}"/>
+                          </sourcefiles>
+                        </group>
+                      </structure>
+                      <html destdir="${basedir}/target/site/jacoco"/>
+                      <xml destfile="${basedir}/target/site/jacoco/jacoco.xml"/>
+                      <csv destfile="${basedir}/target/site/jacoco/jacoco.csv"/>
+                    </report>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>org.jacoco.ant</artifactId>
+                <version>${jacoco.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
