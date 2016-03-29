@@ -1,4 +1,4 @@
 language: java
 
 after_success:
-  - mvn initialize -Pcoverage-report
+  - mvn initialize coveralls:report -Pcoverage-report
