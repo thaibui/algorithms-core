@@ -38,3 +38,5 @@ Storage      | 251 GB Flash Storage
 
 The latest result of all the benchmarks is summarized in this [table]
 (benchmark/result/all.csv)
+
+[!Analytics](https://ga-beacon.appspot.com/UA-XXXXX-X/welcome-page)](https://github.com/igrigorik/ga-beacon)(UA-75323672-2)
