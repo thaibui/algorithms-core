@@ -87,7 +87,8 @@ public class Mergesort {
     T[] tmp = (T[]) Array.newInstance(classOf, smallArrayLen);
     System.arraycopy(a, smallArrayIdx, tmp, 0, smallArrayLen);
 
-    int bigArrayIdx, bigArrayLen;
+    int bigArrayIdx;
+    int bigArrayLen;
 
     // If the smaller array is at the end, swap it with the bigger one
     if (leftLength < rightLength){

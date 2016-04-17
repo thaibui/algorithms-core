@@ -35,7 +35,7 @@ public class ParallelMergesortTest {
   );
 
   @Test
-  public void testSortEmptyIterableWorks() throws InterruptedException, ExecutionException { // NOPMD
+  public void testSortEmptyIterableWorks() throws InterruptedException, ExecutionException {
     assertArrayEquals("Sort empty array should work", new String[]{}, parallelSorter.sort(new String[]{}));
   }
 
@@ -47,7 +47,7 @@ public class ParallelMergesortTest {
   }
 
   @Test
-  public void testArrayWithNullElementShouldFail() throws InterruptedException, ExecutionException {
+  public void testArrayWithNullElementShouldFail() throws InterruptedException, ExecutionException { // NOPMD
     expectedException.expect(ExecutionException.class);
     parallelSorter.sort(new Integer[]{1, 2, null, 5, 3});
   }
