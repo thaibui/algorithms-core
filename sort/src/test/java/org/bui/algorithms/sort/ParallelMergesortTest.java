@@ -35,12 +35,12 @@ public class ParallelMergesortTest {
   );
 
   @Test
-  public void testSortEmptyIterableWorks() throws InterruptedException, ExecutionException {
+  public void testSortEmptyIterableWorks() throws InterruptedException, ExecutionException { // NOPMD
     assertArrayEquals("Sort empty array should work", new String[]{}, parallelSorter.sort(new String[]{}));
   }
 
   @Test
-  public void testNullArrayOfElementsShouldFail() throws InterruptedException, ExecutionException {
+  public void testNullArrayOfElementsShouldFail() throws InterruptedException, ExecutionException { // NOPMD
     expectedException.expect(IllegalArgumentException.class);
     expectedException.expectMessage("array of elements cannot be null");
     parallelSorter.sort(null);
