@@ -22,13 +22,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
  * This class parallelize the default Java {@link Arrays#sort} function by leveging
- * multiple threads provided by an {@link Executor}.
+ * multiple threads provided by an {@link ExecutorService}.
  */
 public class ParallelMergesort {
   public static final int MIN_GRANULARITY = 256;
