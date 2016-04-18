@@ -16,7 +16,10 @@
 
 package org.bui.algorithms;
 
-public class BenchmarkData {
+import java.util.Date;
+import java.util.Random;
+
+public class BenchmarkUtils {
 
   public static final String[] WORDS_SMALL_ARRAY_01 = new String[]{
       "zoo", "home", "car", "paper", "bowl", "data", "clean", "mountain", "fast", "correct", "how", "paper",
@@ -32,4 +35,13 @@ public class BenchmarkData {
       "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
       "u", "v", "w", "y", "x", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!#", "`", ")(", "$"
   };
+
+  public static Integer[] randomArray(int size){
+    Integer[] a = new Integer[size];
+    Random rand = new Random(new Date().getTime());
+    for (int i = 0; i < size; i++){
+      a[i] = rand.nextInt();
+    }
+    return a;
+  }
 }

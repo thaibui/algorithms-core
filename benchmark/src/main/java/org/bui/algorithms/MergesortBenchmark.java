@@ -19,12 +19,10 @@ package org.bui.algorithms;
 import org.bui.algorithms.sort.Mergesort;
 import org.openjdk.jmh.annotations.Benchmark;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_01;
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_02;
+import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_01;
+import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_02;
 
 public class MergesortBenchmark {
 
@@ -42,9 +40,14 @@ public class MergesortBenchmark {
 
   @Benchmark
   public Integer[] sortRandomIntArray01(){
-    ArrayList<Integer> tmp = new ArrayList<Integer>(1000);
-    Collections.shuffle(tmp);
-    Integer[] data = tmp.toArray(new Integer[tmp.size()]);
+    Integer[] data = BenchmarkUtils.randomArray(1000);
     return Mergesort.sort(data, Integer.class);
+  }
+
+  @Benchmark
+  public Integer[] sortMediumRandomIntArray01(){
+    Integer[] data = BenchmarkUtils.randomArray(100000);
+    Arrays.sort(data);
+    return data;
   }
 }

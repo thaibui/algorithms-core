@@ -18,12 +18,10 @@ package org.bui.algorithms;
 
 import org.openjdk.jmh.annotations.Benchmark;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_01;
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_02;
+import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_01;
+import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_02;
 
 public class JavasortBenchmark {
 
@@ -43,9 +41,14 @@ public class JavasortBenchmark {
 
   @Benchmark
   public Integer[] sortRandomIntArray01(){
-    ArrayList<Integer> tmp = new ArrayList<Integer>(1000);
-    Collections.shuffle(tmp);
-    Integer[] data = tmp.toArray(new Integer[tmp.size()]);
+    Integer[] data = BenchmarkUtils.randomArray(1000);
+    Arrays.sort(data);
+    return data;
+  }
+
+  @Benchmark
+  public Integer[] sortMediumRandomIntArray01(){
+    Integer[] data = BenchmarkUtils.randomArray(100000);
     Arrays.sort(data);
     return data;
   }
