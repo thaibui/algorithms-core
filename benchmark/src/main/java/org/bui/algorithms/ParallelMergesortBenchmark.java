@@ -39,35 +39,35 @@ public class ParallelMergesortBenchmark {
   public Integer[] sortRandomIntArray01(Sorter4Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
   public Integer[] sortRandomIntArray01With8Threads(Sorter8Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
   public Integer[] sortMediumRandomIntArray01(Sorter4Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
   public Integer[] sortMediumRandomIntArray01With8Threads(Sorter8Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
   public Integer[] sortMediumRandomIntArray01With5000Granularity(Sorter4Thread5000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
@@ -75,7 +75,7 @@ public class ParallelMergesortBenchmark {
   public Integer[] sortLargeRandomIntArray01With5000Granularity(Sorter4Thread5000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
@@ -83,7 +83,7 @@ public class ParallelMergesortBenchmark {
   public Integer[] sortLargeRandomIntArray01With20000Granularity(Sorter4Thread20000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
@@ -91,7 +91,7 @@ public class ParallelMergesortBenchmark {
   public Integer[] sortLargeRandomIntArray01With8Threads5000Granularity(Sorter8Thread5000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
@@ -99,7 +99,7 @@ public class ParallelMergesortBenchmark {
   public Integer[] sortLargeRandomIntArray01With8Threads20000Granularity(Sorter8Thread20000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
-    return threads.sorter.sort(data, Integer.class);
+    return threads.sorter().sort(data, Integer.class);
   }
 
   // Benchmark sorters setup & tear down
@@ -142,10 +142,10 @@ public class ParallelMergesortBenchmark {
 
   @State(Scope.Benchmark)
   public static class SorterSetup {
-    ExecutorService executor;
-    ParallelMergesort sorter;
-    int numThreads;
-    int granularity;
+    private ExecutorService executor;
+    private ParallelMergesort sorter;
+    private final int numThreads;
+    private final int granularity;
 
     public SorterSetup(int numThreads, int granularity) {
       this.numThreads = numThreads;
@@ -161,6 +161,10 @@ public class ParallelMergesortBenchmark {
     @TearDown(Level.Trial)
     public void shutdown(){
       executor.shutdownNow();
+    }
+
+    public ParallelMergesort sorter() {
+      return sorter;
     }
   }
 }
