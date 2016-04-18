@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -52,48 +53,145 @@ public class ParallelMergesort {
     this.granularity = granularity;
   }
 
-  public <T extends Comparable> T[] sort(final T[] elements) throws InterruptedException, ExecutionException {
+  public <T extends Comparable> T[] sort(final T[] elements, Class<T> tClass)
+      throws InterruptedException, ExecutionException {
     if (null == elements){
       throw new IllegalArgumentException("array of elements cannot be null");
     }
 
-    // Construct a list of tasks to run
-    List<Callable<T>> tasks = new ArrayList<>();
-    build(elements, 0, elements.length, tasks);
+    if (elements.length < 2){
+      return elements;
+    }
 
-    // Invoke and make sure that all tasks are complete
-    List<Future<T>> futures = executor.invokeAll(tasks);
-    for (Future<T> f : futures){
+    // Construct a list of tasks and invoke them all
+    for (Future<T> f : executor.invokeAll(build(elements, tClass, 0, elements.length))){
       f.get();
     }
 
     return elements;
   }
 
-  private <T extends Comparable> void build(T[] elements, int start, int end, List<Callable<T>> tasks){
-    if (end - start + 1 < granularity) {
-      tasks.add(new SortTask<>(elements, start, end));
+  private <T extends Comparable> List<Callable<T>> build(T[] elements, Class<T> tClass, int start, int end){
+    List<Callable<T>> tasks = new ArrayList<>();
+
+    tasks.add(build(elements, start, end, tasks, tClass));
+
+    return tasks;
+  }
+
+  private <T extends Comparable> Callable<T> build(
+      T[] elements,
+      int start,
+      int end,
+      List<Callable<T>> tasks,
+      Class<T> tClass){
+
+    int len = end - start;
+    if (len < granularity) {
+      return new SortTask<>(elements, start, end);
     } else {
-      int mid = (end - start) / 2;
-      build(elements, start, mid, tasks);
-      build(elements, mid, end, tasks);
+      int mid = len / 2;
+      CountDownLatch latch = new CountDownLatch(2);
+
+      tasks.add(new ForkTask<>(latch, build(elements, start, start + mid, tasks, tClass)));
+      tasks.add(new ForkTask<>(latch, build(elements, start + mid, end, tasks, tClass)));
+
+      return new JoinTask<>(latch, new MergeTask<>(elements, start, start + mid, start + mid, end, tClass));
     }
   }
 
-  private static class SortTask<T extends Comparable> implements Callable<T> {
-    private final T[] elements;
-    private final int start;
-    private final int end;
+  private static abstract class MergesortTask<T extends Comparable> implements Callable<T> {
+    protected final T[] elements;
+    protected final int startIdx;
+    protected final int endIdx;
 
-    public SortTask(T[] elements, int start, int end){
+    protected MergesortTask(T[] elements, int startIdx, int endIdx) {
       this.elements = elements;
-      this.start = start;
-      this.end = end;
+      this.startIdx = startIdx;
+      this.endIdx = endIdx;
+    }
+  }
+
+  private static class SortTask<T extends Comparable> extends MergesortTask<T> {
+
+    protected SortTask(T[] elements, int startIdx, int endIdx) {
+      super(elements, startIdx, endIdx);
     }
 
     @Override
     public T call() throws Exception {
-      Arrays.sort(elements, start, end);
+      Arrays.sort(elements, startIdx, endIdx);
+
+      return null;
+    }
+  }
+
+  private static class ForkTask<T> implements Callable<T> {
+    private final CountDownLatch latch;
+    private final Callable<T> task;
+
+    protected ForkTask(CountDownLatch latch, Callable<T> task) {
+      this.latch = latch;
+      this.task = task;
+    }
+
+    @Override
+    public T call() throws Exception {
+      try {
+        return task.call();
+      } catch (Exception e){
+        throw new ExecutionException("Error while trying to execute forked task " + task.getClass().toString(), e);
+      } finally {
+        latch.countDown();
+      }
+    }
+  }
+
+  private static class JoinTask<T> implements Callable<T> {
+    private final CountDownLatch latch;
+    private final Callable<T> task;
+
+    private JoinTask(CountDownLatch latch, Callable<T> task) {
+      this.latch = latch;
+      this.task = task;
+    }
+
+    @Override
+    public T call() throws Exception {
+      latch.await();
+
+      return task.call();
+    }
+  }
+
+  private static class MergeTask<T extends Comparable> extends MergesortTask<T> {
+    private final Class<T> tClass;
+    private final int leftLength;
+    private final int rightLength;
+
+    private MergeTask(
+        T[] elements,
+        int leftStartIdx,
+        int leftEndIdx,
+        int rightStartIdx,
+        int rightEndIdx,
+        Class<T> tClass) {
+      super(elements, leftStartIdx, rightEndIdx);
+
+      this.leftLength = leftEndIdx - leftStartIdx;
+      this.rightLength = rightEndIdx - rightStartIdx;
+      this.tClass = tClass;
+    }
+
+    @Override
+    public T call() throws Exception {
+      Mergesort.merge(
+          elements,
+          startIdx, leftLength,
+          startIdx + leftLength, rightLength,
+          tClass
+      );
+
       return null;
     }
   }

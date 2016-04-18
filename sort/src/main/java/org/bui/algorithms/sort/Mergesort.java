@@ -73,7 +73,7 @@ public class Mergesort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Comparable> void merge(
+  static <T extends Comparable> void merge(
       T[] a,
       int leftIdx,
       int leftLength,
@@ -130,7 +130,7 @@ public class Mergesort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Comparable> int compare(T a, T b){
+  static <T extends Comparable> int compare(T a, T b){
     if (null == a || null == b) {
       throw new IllegalArgumentException("array element cannot be null");
     }
@@ -138,7 +138,7 @@ public class Mergesort {
     return a.compareTo(b);
   }
 
-  private static <T extends Comparable> int compare(T[] a, int l, int r){
+  static <T extends Comparable> int compare(T[] a, int l, int r){
     return compare(a[l], a[r]);
   }
 
