@@ -10,14 +10,22 @@
 It's simply a place for algorithms to live. A list of algorithms in this project
 is provided below.
 
-The project also includes tests and micro benchmarks for comparisions.
+The project also includes tests and micro benchmarks for comparisons.
 
 ## Sorting Algorithms
 
 ### Mergesort
 
 A generic implementation of mergesort algorithm in Java to sort data in a
-single machine, with multiple threads (TODO) and in a distributed environment (TODO).  
+single machine, with multiple threads and in a distributed environment (TODO).  
+
+#### ParallelMergesort
+
+[ParallelMergesort](parallel_mergesort) is an attempt to improve the default Java's Timsort by parallelizing
+the sort tasks in a multi-core machine. Currently, the algorithm improves the default Java's sort 
+performance by almost 2x on a Quad core CPU using 8 threads.
+
+[parallel_mergesort]: src/main/java/org/bui/algorithms/sort/ParallelMergesort.java
 
 ## Benchmarks
 
