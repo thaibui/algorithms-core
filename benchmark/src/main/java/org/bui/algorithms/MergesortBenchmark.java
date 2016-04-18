@@ -18,9 +18,14 @@ package org.bui.algorithms;
 
 import org.bui.algorithms.sort.Mergesort;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_LARGE;
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_MEDIUM;
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_SMALL;
 import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_01;
 import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_02;
 
@@ -40,14 +45,20 @@ public class MergesortBenchmark {
 
   @Benchmark
   public Integer[] sortRandomIntArray01(){
-    Integer[] data = BenchmarkUtils.randomArray(1000);
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
     return Mergesort.sort(data, Integer.class);
   }
 
   @Benchmark
   public Integer[] sortMediumRandomIntArray01(){
-    Integer[] data = BenchmarkUtils.randomArray(100000);
-    Arrays.sort(data);
-    return data;
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
+    return Mergesort.sort(data, Integer.class);
+  }
+
+  @Benchmark
+  @OutputTimeUnit(TimeUnit.MINUTES)
+  public Integer[] sortLargeRandomIntArray01(){
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
+    return Mergesort.sort(data, Integer.class);
   }
 }

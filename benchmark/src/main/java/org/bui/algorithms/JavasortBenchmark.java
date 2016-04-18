@@ -17,9 +17,14 @@
 package org.bui.algorithms;
 
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_LARGE;
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_MEDIUM;
+import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_SMALL;
 import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_01;
 import static org.bui.algorithms.BenchmarkUtils.WORDS_SMALL_ARRAY_02;
 
@@ -41,14 +46,22 @@ public class JavasortBenchmark {
 
   @Benchmark
   public Integer[] sortRandomIntArray01(){
-    Integer[] data = BenchmarkUtils.randomArray(1000);
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
     Arrays.sort(data);
     return data;
   }
 
   @Benchmark
   public Integer[] sortMediumRandomIntArray01(){
-    Integer[] data = BenchmarkUtils.randomArray(100000);
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
+    Arrays.sort(data);
+    return data;
+  }
+
+  @Benchmark
+  @OutputTimeUnit(TimeUnit.MINUTES)
+  public Integer[] sortLargeRandomIntArray01(){
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
     Arrays.sort(data);
     return data;
   }

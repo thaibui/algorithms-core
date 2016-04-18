@@ -21,6 +21,10 @@ import java.util.Random;
 
 public class BenchmarkUtils {
 
+  public static final int ARRAY_SIZE_SMALL = 10000;
+  public static final int ARRAY_SIZE_MEDIUM = 200000;
+  public static final int ARRAY_SIZE_LARGE = 1000000;
+
   public static final String[] WORDS_SMALL_ARRAY_01 = new String[]{
       "zoo", "home", "car", "paper", "bowl", "data", "clean", "mountain", "fast", "correct", "how", "paper",
       "more", "television", "grade", "email", "the Internet", "country", "The United States of America"
