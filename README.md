@@ -21,7 +21,7 @@ single machine, with multiple threads and in a distributed environment (TODO).
 
 #### ParallelMergesort
 
-[ParallelMergesort](parallel_mergesort) is an attempt to improve the default Java's Timsort by parallelizing
+[ParallelMergesort][parallel_mergesort] is an attempt to improve the default Java's Timsort by parallelizing
 the sort tasks in a multi-core machine. Currently, the algorithm improves the default Java's sort 
 performance by almost 2x on a Quad core CPU using 8 threads.
 
