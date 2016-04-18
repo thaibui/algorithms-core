@@ -26,18 +26,37 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
- * This class parallelize the default Java {@link Arrays#sort} function by leveging
- * multiple threads provided by an {@link ExecutorService}.
+ * Provides a faster sorting algorithm by leveraging multi-core CPU environment. It parallelizes the default
+ * Java {@link Arrays#sort} function by splitting a big sort task into smaller subtasks and submits them
+ * to an {@link ExecutorService} for execution.
  */
 public class ParallelMergesort {
+
+  /**
+   * Granularity is the smallest array size for the internal sorting algorithm to sort. E.g. the sorting
+   * algorithm will split a big array into smaller arrays if and only if the size of the big array is larger
+   * than MIN_GRANULARITY
+   */
   public static final int MIN_GRANULARITY = 256;
+
   private final ExecutorService executor;
   private final int granularity;
 
+  /**
+   * Provides a new thread-safe instance to perform the sort tasks.
+   *
+   * @param executor An ExecutorService where the sort tasks will be submitted to
+   */
   public ParallelMergesort(ExecutorService executor){
     this(executor, MIN_GRANULARITY);
   }
 
+  /**
+   * Provides a new thread-safe instance to perform the sort tasks.
+   *
+   * @param executor An ExecutorService where the sort tasks will be submitted to
+   * @param granularity The smallest unit of work at which the algorithm should stop splitting into subtasks
+   */
   public ParallelMergesort(final ExecutorService executor, final int granularity){
     if (null == executor){
       throw new IllegalArgumentException("executor cannot be null");
@@ -52,7 +71,22 @@ public class ParallelMergesort {
     this.granularity = granularity;
   }
 
-  public <T extends Comparable> T[] sort(final T[] elements, Class<T> tClass)
+  /**
+   * Sort an array by splitting the array into disjoint partitions (subtasks). Each subtask
+   * will be sorted and merged in a multithreaded environment. Thus, the level of parallelism
+   * of the sorting algorithm is determined by the amount of threads in the provided ExecutorSerivce
+   * as well as the number of processors available in the host environment.
+   *
+   * @param elements The array of elements to sort
+   * @param tClass The class of the element in the array
+   * @param <T> The type of the element
+   *
+   * @return The original array sorted in ascending order according the the natural order its elements.
+   *
+   * @throws InterruptedException
+   * @throws ExecutionException
+   */
+  public <T extends Comparable> T[] sort(final T[] elements, final Class<T> tClass)
       throws InterruptedException, ExecutionException {
     if (null == elements){
       throw new IllegalArgumentException("array of elements cannot be null");
