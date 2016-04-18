@@ -25,7 +25,7 @@ single machine, with multiple threads and in a distributed environment (TODO).
 the sort tasks in a multi-core machine. Currently, the algorithm improves the default Java's sort 
 performance by almost 2x on a Quad core CPU using 8 threads.
 
-[parallel_mergesort]: src/main/java/org/bui/algorithms/sort/ParallelMergesort.java
+[parallel_mergesort]: sort/src/main/java/org/bui/algorithms/sort/ParallelMergesort.java
 
 ## Benchmarks
 
