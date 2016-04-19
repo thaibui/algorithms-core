@@ -35,44 +35,58 @@ import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_MEDIUM;
 import static org.bui.algorithms.BenchmarkUtils.ARRAY_SIZE_SMALL;
 
 public class ParallelMergesortBenchmark {
+
+  // Small array size
+
   @Benchmark
-  public Integer[] sortRandomIntArray01(Sorter4Thread threads)
+  public Integer[] sortRandomIntArray01_04Threads(Sorter4Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  public Integer[] sortRandomIntArray01With8Threads(Sorter8Thread threads)
+  public Integer[] sortRandomIntArray01_08Threads(Sorter8Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  public Integer[] sortMediumRandomIntArray01(Sorter4Thread threads)
+  public Integer[] sortRandomIntArray01_16Threads(Sorter16Thread threads)
+      throws ExecutionException, InterruptedException {
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_SMALL);
+    return threads.sorter().sort(data, Integer.class);
+  }
+
+  // Medium array size
+
+  @Benchmark
+  public Integer[] sortMediumRandomIntArray01_04Threads(Sorter4Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  public Integer[] sortMediumRandomIntArray01With8Threads(Sorter8Thread threads)
+  public Integer[] sortMediumRandomIntArray01_08Threads(Sorter8Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  public Integer[] sortMediumRandomIntArray01With5000Granularity(Sorter4Thread5000Granularity threads)
+  public Integer[] sortMediumRandomIntArray01_16Threads(Sorter16Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
     return threads.sorter().sort(data, Integer.class);
   }
 
+  // Large array size
+
   @Benchmark
   @OutputTimeUnit(TimeUnit.MINUTES)
-  public Integer[] sortLargeRandomIntArray01With5000Granularity(Sorter4Thread5000Granularity threads)
+  public Integer[] sortLargeRandomIntArray01_08Threads(Sorter8Thread threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
     return threads.sorter().sort(data, Integer.class);
@@ -80,25 +94,32 @@ public class ParallelMergesortBenchmark {
 
   @Benchmark
   @OutputTimeUnit(TimeUnit.MINUTES)
-  public Integer[] sortLargeRandomIntArray01With20000Granularity(Sorter4Thread20000Granularity threads)
+  public Integer[] sortLargeRandomIntArray01_16Threads(Sorter16Thread threads)
+      throws ExecutionException, InterruptedException {
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
+    return threads.sorter().sort(data, Integer.class);
+  }
+
+  // Different granularity level
+
+  @Benchmark
+  public Integer[] sortLargeRandomIntArray01_4Threads_1000Granularity(Sorter4Thread1000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  @OutputTimeUnit(TimeUnit.MINUTES)
-  public Integer[] sortLargeRandomIntArray01With8Threads5000Granularity(Sorter8Thread5000Granularity threads)
+  public Integer[] sortLargeRandomIntArray01_4Threads_5000Granularity(Sorter4Thread5000Granularity threads)
       throws ExecutionException, InterruptedException {
     Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
     return threads.sorter().sort(data, Integer.class);
   }
 
   @Benchmark
-  @OutputTimeUnit(TimeUnit.MINUTES)
-  public Integer[] sortLargeRandomIntArray01With8Threads20000Granularity(Sorter8Thread20000Granularity threads)
+  public Integer[] sortLargeRandomIntArray01_4Threads_20000Granularity(Sorter4Thread20000Granularity threads)
       throws ExecutionException, InterruptedException {
-    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_LARGE);
+    Integer[] data = BenchmarkUtils.randomArray(ARRAY_SIZE_MEDIUM);
     return threads.sorter().sort(data, Integer.class);
   }
 
@@ -116,6 +137,18 @@ public class ParallelMergesortBenchmark {
     }
   }
 
+  public static class Sorter16Thread extends SorterSetup {
+    public Sorter16Thread(){
+      super(16, ParallelMergesort.MIN_GRANULARITY);
+    }
+  }
+
+  public static class Sorter4Thread1000Granularity extends SorterSetup {
+    public Sorter4Thread1000Granularity(){
+      super(4, 1000);
+    }
+  }
+
   public static class Sorter4Thread5000Granularity extends SorterSetup {
     public Sorter4Thread5000Granularity(){
       super(4, 5000);
@@ -125,18 +158,6 @@ public class ParallelMergesortBenchmark {
   public static class Sorter4Thread20000Granularity extends SorterSetup {
     public Sorter4Thread20000Granularity(){
       super(4, 20000);
-    }
-  }
-
-  public static class Sorter8Thread5000Granularity extends SorterSetup {
-    public Sorter8Thread5000Granularity(){
-      super(8, 5000);
-    }
-  }
-
-  public static class Sorter8Thread20000Granularity extends SorterSetup {
-    public Sorter8Thread20000Granularity(){
-      super(8, 20000);
     }
   }
 

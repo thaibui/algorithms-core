@@ -87,38 +87,49 @@ public class Mergesort {
     T[] tmp = (T[]) Array.newInstance(classOf, smallArrayLen);
     System.arraycopy(a, smallArrayIdx, tmp, 0, smallArrayLen);
 
-    int bigArrayIdx;
-    int bigArrayLen;
-
-    // If the smaller array is at the end, swap it with the bigger one
     if (leftLength < rightLength){
-      bigArrayIdx = rightIdx;
-      bigArrayLen = rightLength;
+      int tmpCur = 0;
+      int idx = leftIdx;
+      int rightCur = rightIdx;
+
+      while (idx < rightIdx + rightLength){
+        if (tmpCur == leftLength){
+          break;
+        }
+
+        else if (rightCur == rightIdx + rightLength){
+          a[idx++] = tmp[tmpCur++];
+        }
+
+        else if (compare(tmp[tmpCur], a[rightCur]) < 0){
+          a[idx++] = tmp[tmpCur++];
+        }
+
+        else {
+          a[idx++] = a[rightCur++];
+        }
+      }
     } else {
-      System.arraycopy(a, leftIdx, a, rightIdx + rightLength - leftLength, leftLength);
-      bigArrayIdx = rightIdx + rightLength - leftLength;
-      bigArrayLen = leftLength;
-    }
+      int tmpCur = rightLength - 1;
+      int idx = rightIdx + rightLength - 1;
+      int leftCur = leftIdx + leftLength - 1;
 
-    int tmpCur = 0;
-    int bigCur = bigArrayIdx;
-    int idx = leftIdx;
+      while (idx >= leftIdx){
+        if (tmpCur < 0){
+          break;
+        }
 
-    while (idx < leftIdx + smallArrayLen + bigArrayLen){
-      if (tmpCur == smallArrayLen) {
-        break; // done, array is sorted
-      }
+        else if (leftCur < leftIdx){
+          a[idx--] = tmp[tmpCur--];
+        }
 
-      else if (bigCur == bigArrayIdx + bigArrayLen) {
-        a[idx++] = tmp[tmpCur++];
-      }
+        else if (compare(tmp[tmpCur], a[leftCur]) >= 0){
+          a[idx--] = tmp[tmpCur--];
+        }
 
-      else if (compare(tmp[tmpCur], a[bigCur]) < 0) {
-        a[idx++] = tmp[tmpCur++];
-      }
-
-      else {
-        a[idx++] = a[bigCur++];
+        else {
+          a[idx--] = a[leftCur--];
+        }
       }
     }
   }
