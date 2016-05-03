@@ -107,6 +107,13 @@ public class ParallelMergesort {
   /**
    * Given an array of comparable elements, this function splits the array into smaller executable workloads
    * {@link Callable} to be executed in parallel.
+   *
+   * @param elements An array of comparable elements
+   * @param tClass The class of the element
+   * @param start The start index from the array of elements to be sorted, inclusively.
+   * @param end The end index from the array of elements to be sorted, exclusively.
+   * @param <T> The element type
+   * @return The original elements object sorted accendingly according to the natural order of the elements
    */
   private <T extends Comparable> List<Callable<T>> build(T[] elements, Class<T> tClass, int start, int end){
     List<Callable<T>> tasks = new ArrayList<>();
