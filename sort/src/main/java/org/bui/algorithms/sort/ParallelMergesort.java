@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
- * Provides a faster sorting algorithm by leveraging multi-core CPU environment. It parallelizes the default
+ * Provides a faster sorting algorithm by leveraging the multi-core CPU environment. It parallelizes the default
  * Java {@link Arrays#sort} function by splitting a big sort task into smaller subtasks and submits them
  * to an {@link ExecutorService} for execution.
  */
@@ -81,7 +81,7 @@ public class ParallelMergesort {
    * @param tClass The class of the element in the array
    * @param <T> The type of the element
    *
-   * @return The original array sorted in ascending order according the the natural order its elements.
+   * @return The original array sorted in ascending order according the the natural order of its elements.
    *
    * @throws InterruptedException
    * @throws ExecutionException
@@ -104,6 +104,10 @@ public class ParallelMergesort {
     return elements;
   }
 
+  /**
+   * Given an array of comparable elements, this function splits the array into smaller executable workloads
+   * {@link Callable} to be executed in parallel.
+   */
   private <T extends Comparable> List<Callable<T>> build(T[] elements, Class<T> tClass, int start, int end){
     List<Callable<T>> tasks = new ArrayList<>();
 
@@ -112,6 +116,15 @@ public class ParallelMergesort {
     return tasks;
   }
 
+  /**
+   * Given an array of comparable elements, this function splits the array into
+   * {@link org.bui.algorithms.sort.ParallelMergesort.MergesortTask} where each of the task is either a
+   * {@link org.bui.algorithms.sort.ParallelMergesort.SortTask} or a
+   * {@link org.bui.algorithms.sort.ParallelMergesort.MergeTask}. The sort tasks sort an exclusive portion
+   * on the array of elements, while the merge tasks wait for its dependent sort tasks (or merge tasks) to
+   * be finished using a {@link CountDownLatch}. When finished, the merge tasks perform a merge operation
+   * on its dependent task's elements.
+   */
   private <T extends Comparable> Callable<T> build(
       T[] elements,
       int start,
@@ -133,6 +146,9 @@ public class ParallelMergesort {
     }
   }
 
+  /**
+   * The interfaces for the parallel merge & sort tasks
+   */
   private static abstract class MergesortTask<T extends Comparable> implements Callable<T> {
     protected final T[] elements;
     protected final int startIdx;
@@ -145,6 +161,9 @@ public class ParallelMergesort {
     }
   }
 
+  /**
+   * Sort tasks sort the desinated portion on the array of elements.
+   */
   private static class SortTask<T extends Comparable> extends MergesortTask<T> {
 
     protected SortTask(T[] elements, int startIdx, int endIdx) {
@@ -159,6 +178,10 @@ public class ParallelMergesort {
     }
   }
 
+  /**
+   * A wrapper that forks a given {@link Callable} task and track its completion
+   * before counting down a {@link CountDownLatch}
+   */
   private static class ForkTask<T> implements Callable<T> {
     private final CountDownLatch latch;
     private final Callable<T> task;
@@ -180,6 +203,10 @@ public class ParallelMergesort {
     }
   }
 
+  /**
+   * A wrapper tasks that waits for the {@link CountDownLatch} to reach zero
+   * before running a callable task.
+   */
   private static class JoinTask<T> implements Callable<T> {
     private final CountDownLatch latch;
     private final Callable<T> task;
@@ -197,6 +224,10 @@ public class ParallelMergesort {
     }
   }
 
+  /**
+   * Merge tasks merge the two disjoint but continuous portions of an array
+   * of elements.
+   */
   private static class MergeTask<T extends Comparable> extends MergesortTask<T> {
     private final Class<T> tClass;
     private final int leftLength;
