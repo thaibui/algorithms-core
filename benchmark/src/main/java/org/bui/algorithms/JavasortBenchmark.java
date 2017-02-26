@@ -18,35 +18,60 @@ package org.bui.algorithms;
 
 import org.openjdk.jmh.annotations.Benchmark;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_01;
-import static org.bui.algorithms.BenchmarkData.WORDS_SMALL_ARRAY_02;
+import static org.bui.algorithms.BenchmarkData.MOVIE_TITLES;
+import static org.bui.algorithms.BenchmarkData.RANDOM_INT_ARRAY;
+import static org.bui.algorithms.BenchmarkData.STOCK_VALUES;
 
 public class JavasortBenchmark {
 
   @Benchmark
-  public String[] sortSimpleStringArray01() {
-    String[] data = Arrays.copyOf(WORDS_SMALL_ARRAY_01, WORDS_SMALL_ARRAY_01.length);
+  public String[] sortMovieTitles() {
+    String[] data = Arrays.copyOf(MOVIE_TITLES, MOVIE_TITLES.length);
     Arrays.sort(data);
     return data;
   }
 
   @Benchmark
-  public String[] sortSimpleStringArray02() {
-    String[] data = Arrays.copyOf(WORDS_SMALL_ARRAY_02, WORDS_SMALL_ARRAY_02.length);
+  public Double[] sortStockValues() {
+    Double[] data = Arrays.copyOf(STOCK_VALUES, STOCK_VALUES.length);
     Arrays.sort(data);
     return data;
   }
 
   @Benchmark
-  public Integer[] sortRandomIntArray01(){
-    ArrayList<Integer> tmp = new ArrayList<Integer>(1000);
-    Collections.shuffle(tmp);
-    Integer[] data = tmp.toArray(new Integer[tmp.size()]);
+  public Integer[] sortRandomIntValues() {
+    Integer[] data = Arrays.copyOf(RANDOM_INT_ARRAY, RANDOM_INT_ARRAY.length);
     Arrays.sort(data);
     return data;
   }
+//
+//  @Benchmark
+//  public String[] sortSimpleStringArray02() {
+//    String[] data = Arrays.copyOf(WORDS_SMALL_ARRAY_02, WORDS_SMALL_ARRAY_02.length);
+//    Arrays.sort(data);
+//    return data;
+//  }
+//
+//  @Benchmark
+//  public Integer[] sortRandomIntArray01(){
+//    Integer[] data =  Arrays.copyOf(TINY_ARRAY, TINY_ARRAY.length);
+//    Arrays.sort(data);
+//    return data;
+//  }
+//
+//  @Benchmark
+//  public Integer[] sortRandomIntArray02(){
+//    Integer[] data =  Arrays.copyOf(SMALL_ARRAY, SMALL_ARRAY.length);
+//    Arrays.sort(data);
+//    return data;
+//  }
+//
+//  @Benchmark
+//  public Integer[] sortRandomIntArray03(){
+//    Integer[] data =  Arrays.copyOf(LARGE_ARRAY, LARGE_ARRAY.length);
+//    Arrays.sort(data);
+//    return data;
+//  }
 }
