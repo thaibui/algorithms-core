@@ -3287,7 +3287,7 @@ class BenchmarkData {
       "Miller's Crossing (1990)"
   };
 
-  static final Integer[] RANDOM_INT_ARRAY = randomArray(3000);
+  static final Integer[] RANDOM_INT_ARRAY = randomArray(10000);
 
   private static Integer[] randomArray(int size) {
     Integer[] a = new Integer[size];
