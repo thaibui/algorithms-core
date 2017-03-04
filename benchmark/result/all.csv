@@ -5,3 +5,6 @@
 "org.bui.algorithms.MergesortBenchmark.sortMovieTitles","thrpt",2,15,11780.680346,135.137905,"ops/s"
 "org.bui.algorithms.MergesortBenchmark.sortRandomIntValues","thrpt",2,15,4855.642791,104.810164,"ops/s"
 "org.bui.algorithms.MergesortBenchmark.sortStockValues","thrpt",2,15,8835.901649,185.180483,"ops/s"
+"org.bui.algorithms.ForkJoinMergesortBenchmark.sortMovieTitles","thrpt",2,15,16163.075776,353.653474,"ops/s"
+"org.bui.algorithms.ForkJoinMergesortBenchmark.sortRandomIntValues","thrpt",2,15,1916.526999,56.385462,"ops/s"
+"org.bui.algorithms.ForkJoinMergesortBenchmark.sortStockValues","thrpt",2,15,10641.194727,262.563359,"ops/s"

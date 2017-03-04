@@ -73,7 +73,7 @@ public class Mergesort {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T extends Comparable> void merge(
+  static <T extends Comparable> void merge(
       T[] a,
       int leftIdx,
       int leftLength,
