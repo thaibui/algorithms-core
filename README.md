@@ -19,10 +19,12 @@ single machine, with multiple threads and in a distributed environment (TODO).
 #### ParallelMergesort
 
 [ParallelMergesort][parallel_mergesort] is an attempt to improve the default Java's Timsort by parallelizing
-the sort tasks in a multi-core machine. Currently, the algorithm improves the default Java's sort 
-performance by almost 2x on a Quad core CPU using 8 threads.
+the sort tasks in a multi-core machine. Currently, the algorithm improves the default Java 7's sort 
+performance by 50% on a Quad core CPU using 8 threads. See more info in this
+[blog][improving_java_merge_sort_part2]
 
 [parallel_mergesort]: sort/src/main/java/org/bui/algorithms/sort/ParallelMergesort.java
+[improving_java_merge_sort_part2]: http://thaibui.github.io/posts/improving-java-sorting-algorithms-part-2/
 
 ## Benchmarks
 
